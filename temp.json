@@ -1,0 +1,168 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "primaryregion": {
+            "type": "string",
+            "metadata": {
+                "description": "This is the primary region"
+            },
+            "defaultValue": "southindia"
+        },
+        "secondaryregion": {
+            "type": "string",
+            "metadata": {
+                "description": "This is the primary region"
+            },
+            "defaultValue": "centralindia"
+        },
+        "vnet1": {
+            "type": "string",
+            "metadata": {
+                "description": "This is the web vnet1"
+            },
+            "defaultValue": "10.100.0.0/16"
+        },
+        "vnet2": {
+            "type": "string",
+            "metadata": {
+                "description": "This is the web vnet2"
+            },
+            "defaultValue": "10.101.0.0/16"
+        },
+        "websb1": {
+            "type": "string",
+            "metadata": {
+                "description": "This is the web subnet1"
+            },
+            "defaultValue": "10.100.0.0/24"
+        },
+          "websb2": {
+            "type": "string",
+            "metadata": {
+                "description": "This is the web subnet2"
+            },
+            "defaultValue": "10.101.0.0/24"
+        },
+        "appsb1": {
+            "type": "string",
+            "metadata": {
+                "description": "This is the app subnet1"
+            },
+            "defaultValue": "10.100.1.0/24"
+        },
+          "appsb2": {
+            "type": "string",
+            "metadata": {
+                "description": "This is the app subnet2"
+            },
+            "defaultValue": "10.101.1.0/24"
+        },
+          "mgmtsb1": {
+            "type": "string",
+            "metadata": {
+                "description": "This is the mgmt subnet1"
+            },
+            "defaultValue": "10.100.2.0/24"
+        },
+          "mgmtsb2": {
+            "type": "string",
+            "metadata": {
+                "description": "This is the mgmt subnet2"
+            },
+            "defaultValue": "10.101.2.0/24"
+        },
+         "dbsb1": {
+            "type": "string",
+            "metadata": {
+                "description": "This is the db subnet1"
+            },
+            "defaultValue": "10.100.3.0/24"
+        },
+          "dbsb2": {
+            "type": "string",
+            "metadata": {
+                "description": "This is the db subnet2"
+            },
+            "defaultValue": "10.101.3.0/24"
+        }
+    },
+    "resources": [
+    {
+        "type": "Microsoft.Network/virtualNetworks",
+        "apiVersion": "2021-08-01",
+        "name": "primaryvnet",
+        "location": "[parameters('primaryregion')]",
+        "properties": {
+            "addressSpace": {
+                "addressPrefixes": [ "[parameters('vnet1')]" ]
+            },
+            "subnets": [
+            {
+                "name": "web",
+                "properties": {
+                    "addressPrefix": "[parameters('websb1')]"
+                }
+            },
+            {
+                "name": "mgmt",
+                "properties": {
+                    "addressPrefix": "[parameters('mgmtsb1')]"
+                }
+            },
+            {
+                "name": "app",
+                "properties": {
+                    "addressPrefix": "[parameters('appsb1')]"
+                }
+            },
+            {
+                "name": "db",
+                "properties": {
+                    "addressPrefix": "[parameters('dbsb1')]"
+                }
+            }
+
+            ]
+        }
+    },
+    {
+        "type": "Microsoft.Network/virtualNetworks",
+        "apiVersion": "2021-08-01",
+        "name": "secondaryvnet",
+        "location": "[parameters('secondaryregion')]",
+        "properties": {
+            "addressSpace": {
+                "addressPrefixes": [ "[parameters('vnet2')]" ]
+            },
+            "subnets": [
+            {
+                "name": "web",
+                "properties": {
+                    "addressPrefix": "[parameters('websb2')]"
+                }
+            },
+            {
+                "name": "mgmt",
+                "properties": {
+                    "addressPrefix": "[parameters('mgmtsb2')]"
+                }
+            },
+            {
+                "name": "app",
+                "properties": {
+                    "addressPrefix": "[parameters('appsb2')]"
+                }
+            },
+            {
+                "name": "db",
+                "properties": {
+                    "addressPrefix": "[parameters('dbsb2')]"
+                }
+            }
+
+            ]
+        }
+    }
+    ]
+}
